@@ -1,5 +1,7 @@
 import pygame as pg
-import random, time, sys
+import random
+import time
+import sys
 from pygame.locals import *
 
 
