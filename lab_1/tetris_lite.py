@@ -80,7 +80,7 @@ def main():
     pg.display.set_caption('Тетрис Lite')
     show_text('Тетрис Lite')
 
-    while True: # начинаем игру
+    while True:  # начинаем игру
         run_tetris()
         pause_screen()
         show_text('Игра закончена')
@@ -100,7 +100,7 @@ def run_tetris():
     next_figure = get_new_figure()
 
     while True:
-        if falling_figure == None:
+        if falling_figure is None:
             # если нет падающих фигур, генерируем новую
             falling_figure = next_figure
             next_figure = get_new_figure()
@@ -181,9 +181,9 @@ def run_tetris():
             falling_figure['y'] += 1
             last_move_down = time.time()
 
-        if time.time() - last_fall > fall_speed: # свободное падение фигуры
-            if not check_position(cup, falling_figure, adj_y=1): # проверка "приземления" фигуры
-                add_to_cup(cup, falling_figure) # фигура приземлилась, добавляем ее в содержимое стакана
+        if time.time() - last_fall > fall_speed:  # свободное падение фигуры
+            if not check_position(cup, falling_figure, adj_y=1):  # проверка "приземления" фигуры
+                add_to_cup(cup, falling_figure)  # фигура приземлилась, добавляем ее в содержимое стакана
                 points += clear_completed(cup)
                 level, fall_speed = calc_speed(points)
                 falling_figure = None
@@ -197,7 +197,7 @@ def run_tetris():
         game_cup(cup)
         draw_info(points, level)
         draw_next_figure(next_figure)
-        if falling_figure != None:
+        if falling_figure is not None:
             draw_figure(falling_figure)
         pg.display.update()
         fps_clock.tick(FPS)
@@ -238,7 +238,7 @@ def show_text(text):
                              int(WINDOW_HEIGHT / 2) + 100)
     display_surface.blit(press_key_surf, press_key_rect)
 
-    while check_keys() == None:
+    while check_keys() is None:
         pg.display.update()
         fps_clock.tick()
 
@@ -342,7 +342,7 @@ def draw_block(block_x, block_y, color, pixel_x=None, pixel_y=None):
     if color == EMPTY:
         return
 
-    if pixel_x == None and pixel_y == None:
+    if pixel_x is None and pixel_y is None:
         pixel_x, pixel_y = convert_coords(block_x, block_y)
 
     pg.draw.rect(display_surface, COLORS[color],
@@ -405,7 +405,7 @@ def draw_info(points, level):
 def draw_figure(fig, pixel_x=None, pixel_y=None):
     fig_to_draw = FIGURES[fig['shape']][fig['rotation']]
 
-    if pixel_x == None and pixel_y == None:
+    if pixel_x is None and pixel_y is None:
         pixel_x, pixel_y = convert_coords(fig['x'], fig['y'])
 
     # отрисовка элементов фигур
