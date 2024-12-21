@@ -9,17 +9,17 @@ FPS = 25
 WINDOW_WIDTH, WINDOW_HEIGHT = 600, 500
 BLOCK_SIZE, CUP_HEIGHT, CUP_WIDTH = 20, 20, 10
 
-SIDE_FREQ, DOWN_FREQ = 0.15, 0.1 # передвижение в сторону и вниз
+SIDE_FREQ, DOWN_FREQ = 0.15, 0.1  # передвижение в сторону и вниз
 
 SIDE_MARGIN = int((WINDOW_WIDTH - CUP_WIDTH * BLOCK_SIZE) / 2)
 TOP_MARGIN = WINDOW_HEIGHT - (CUP_HEIGHT * BLOCK_SIZE) - 5
 
 COLORS = (
     (0, 0, 225), (0, 225, 0), (225, 0, 0), (225, 225, 0)
-) # синий, зеленый, красный, желтый
+)  # синий, зеленый, красный, желтый
 LIGHT_COLORS = (
     (30, 30, 255), (50, 255, 50), (255, 30, 30), (255, 255, 30)
-) # светло-синий, светло-зеленый, светло-красный, светло-желтый
+)  # светло-синий, светло-зеленый, светло-красный, светло-желтый
 
 WHITE, GRAY, BLACK  = (255, 255, 255), (185, 185, 185), (0, 0, 0)
 BRD_COLOR, BG_COLOR, TXT_COLOR, TITLE_COLOR, INFO_COLOR = WHITE, GRAY, BLACK, COLORS[3], COLORS[0]
@@ -107,7 +107,7 @@ def run_tetris():
             last_fall = time.time()
 
             if not check_position(cup, falling_figure):
-                return # если на игровом поле нет свободного места - игра закончена
+                return  # если на игровом поле нет свободного места - игра закончена
 
         quit_game()
 
@@ -187,7 +187,7 @@ def run_tetris():
                 points += clear_completed(cup)
                 level, fall_speed = calc_speed(points)
                 falling_figure = None
-            else: # фигура пока не приземлилась, продолжаем движение вниз
+            else:  # фигура пока не приземлилась, продолжаем движение вниз
                 falling_figure['y'] += 1
                 last_fall = time.time()
 
@@ -244,7 +244,7 @@ def show_text(text):
 
 
 def quit_game():
-    for event in pg.event.get(QUIT): # проверка всех событий, приводящих к выходу из игры
+    for event in pg.event.get(QUIT):  # проверка всех событий, приводящих к выходу из игры
         stop_game()
 
     for event in pg.event.get(KEYUP):
@@ -315,7 +315,7 @@ def is_completed(cup, y):
 
 
 def clear_completed(cup):
-    # Удаление заполенных рядов и сдвиг верхних рядов вниз
+    # Удаление заполненных рядов и сдвиг верхних рядов вниз
     removed_lines = 0
     y = CUP_HEIGHT - 1
 
@@ -338,7 +338,7 @@ def convert_coords(block_x, block_y):
 
 
 def draw_block(block_x, block_y, color, pixel_x=None, pixel_y=None):
-    #отрисовка квадратных блоков, из которых состоят фигуры
+    # отрисовка квадратных блоков, из которых состоят фигуры
     if color == EMPTY:
         return
 
@@ -408,7 +408,7 @@ def draw_figure(fig, pixel_x=None, pixel_y=None):
     if pixel_x == None and pixel_y == None:
         pixel_x, pixel_y = convert_coords(fig['x'], fig['y'])
 
-    #отрисовка элементов фигур
+    # отрисовка элементов фигур
     for x in range(FIG_WIDTH):
         for y in range(FIG_HEIGHT):
             if fig_to_draw[y][x] != EMPTY:
