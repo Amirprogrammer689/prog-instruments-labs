@@ -1,7 +1,8 @@
-import pygame as pg
-import random
-import time
 import sys
+import time
+import random
+
+import pygame as pg
 from pygame.locals import *
 
 
@@ -289,7 +290,7 @@ def empty_cup():
 
 
 def in_cup(x, y):
-    return x >= 0 and x < CUP_WIDTH and y < CUP_HEIGHT
+    return 0 <= x < CUP_WIDTH and y < CUP_HEIGHT
 
 
 def check_position(cup, fig, adj_x=0, adj_y=0):
@@ -324,9 +325,9 @@ def clear_completed(cup):
             for push_down_y in range(y, 0, -1):
                 for x in range(CUP_WIDTH):
                     cup[x][push_down_y] = cup[x][push_down_y-1]
-                for x in range(CUP_WIDTH):
-                    cup[x][0] = EMPTY
-                    removed_lines += 1
+            for x in range(CUP_WIDTH):
+                cup[x][0] = EMPTY
+                removed_lines += 1
         else:
             y -= 1
 
