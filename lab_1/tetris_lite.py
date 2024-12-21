@@ -21,7 +21,7 @@ LIGHT_COLORS = (
     (30, 30, 255), (50, 255, 50), (255, 30, 30), (255, 255, 30)
 )  # светло-синий, светло-зеленый, светло-красный, светло-желтый
 
-WHITE, GRAY, BLACK  = (255, 255, 255), (185, 185, 185), (0, 0, 0)
+WHITE, GRAY, BLACK = (255, 255, 255), (185, 185, 185), (0, 0, 0)
 BRD_COLOR, BG_COLOR, TXT_COLOR, TITLE_COLOR, INFO_COLOR = WHITE, GRAY, BLACK, COLORS[3], COLORS[0]
 
 FIG_WIDTH, FIG_HEIGHT = 5, 5
