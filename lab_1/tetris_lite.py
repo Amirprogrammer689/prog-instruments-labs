@@ -10,17 +10,17 @@ FPS = 25
 WINDOW_WIDTH, WINDOW_HEIGHT = 600, 500
 BLOCK_SIZE, CUP_HEIGHT, CUP_WIDTH = 20, 20, 10
 
-SIDE_FREQ, DOWN_FREQ = 0.15, 0.1  # передвижение в сторону и вниз
+SIDE_FREQ, DOWN_FREQ = 0.15, 0.1  # Side and downward movement frequencies
 
 SIDE_MARGIN = int((WINDOW_WIDTH - CUP_WIDTH * BLOCK_SIZE) / 2)
 TOP_MARGIN = WINDOW_HEIGHT - (CUP_HEIGHT * BLOCK_SIZE) - 5
 
 COLORS = (
     (0, 0, 225), (0, 225, 0), (225, 0, 0), (225, 225, 0)
-)  # синий, зеленый, красный, желтый
+)  # Blue, Green, Red, Yellow
 LIGHT_COLORS = (
     (30, 30, 255), (50, 255, 50), (255, 30, 30), (255, 255, 30)
-)  # светло-синий, светло-зеленый, светло-красный, светло-желтый
+)  # Light Blue, Light Green, Light Red, Light Yellow
 
 WHITE, GRAY, BLACK = (255, 255, 255), (185, 185, 185), (0, 0, 0)
 BRD_COLOR, BG_COLOR, TXT_COLOR, TITLE_COLOR, INFO_COLOR = WHITE, GRAY, BLACK, COLORS[3], COLORS[0]
@@ -66,12 +66,23 @@ FIGURES = {
 
 
 def pause_screen():
+    """Display a pause screen overlay.
+
+    This function creates a semi-transparent overlay to indicate that the game is paused.
+    It fills the overlay with a blue color and blits it onto the display surface.
+    """
     pause_surface = pg.Surface((600, 500), pg.SRCALPHA)
     pause_surface.fill((0, 0, 255, 127))
     display_surface.blit(pause_surface, (0, 0))
 
 
 def main():
+    """Initialize the game and start the main loop.
+
+    This function sets up the game environment, initializes the display,
+    fonts, and starts the main game loop. It runs the Tetris game and
+    manages the pause screen when the game ends.
+    """
     global fps_clock, display_surface, basic_font, big_font
     pg.init()
     fps_clock = pg.time.Clock()
@@ -81,13 +92,18 @@ def main():
     pg.display.set_caption('Тетрис Lite')
     show_text('Тетрис Lite')
 
-    while True:  # начинаем игру
+    while True:  # Start the game loop
         run_tetris()
         pause_screen()
         show_text('Игра закончена')
 
 
 def run_tetris():
+    """Run the Tetris game logic.
+
+    This function manages the main game loop, handling user input,
+    updating the game state, and rendering the game elements on the screen.
+    """
     cup = empty_cup()
     last_move_down = time.time()
     last_side_move = time.time()
@@ -102,13 +118,13 @@ def run_tetris():
 
     while True:
         if falling_figure is None:
-            # если нет падающих фигур, генерируем новую
+            # Generate a new falling figure if none exists
             falling_figure = next_figure
             next_figure = get_new_figure()
             last_fall = time.time()
 
             if not check_position(cup, falling_figure):
-                return  # если на игровом поле нет свободного места - игра закончена
+                return  # Game over if no space for new figure
 
         quit_game()
 
@@ -128,7 +144,7 @@ def run_tetris():
                     going_down = False
 
             elif event.type == KEYDOWN:
-                # перемещение фигуры вправо и влево
+                # Move the figure left and right
                 if event.key == K_LEFT and check_position(cup, falling_figure, adj_x=-1):
                     falling_figure['x'] -= 1
                     going_left = True
@@ -141,7 +157,7 @@ def run_tetris():
                     going_left = False
                     last_side_move = time.time()
 
-                # поворачиваем фигуру, если есть место
+                # Rotate the figure if there's space
                 elif event.key == K_UP:
                     falling_figure['rotation'] = (
                                                          falling_figure['rotation'] + 1
@@ -151,14 +167,14 @@ def run_tetris():
                                                              falling_figure['rotation'] - 1
                                                      ) % len(FIGURES[falling_figure['shape']])
 
-                # ускоряем падение фигуры
+                # Speed up the falling figure
                 elif event.key == K_DOWN:
                     going_down = True
                     if check_position(cup, falling_figure, adj_y=1):
                         falling_figure['y'] += 1
                     last_move_down = time.time()
 
-                # мгновенный сброс вниз
+                # Instant drop down
                 elif event.key == K_RETURN:
                     going_down = False
                     going_left = False
@@ -168,7 +184,7 @@ def run_tetris():
                             break
                     falling_figure['y'] += i - 1
 
-        # управление падением фигуры при удержании клавиш
+        # Handle figure movement while keys are held down
         if (going_left or going_right) and time.time() - last_side_move > SIDE_FREQ:
             if going_left and check_position(cup, falling_figure, adj_x=-1):
                 falling_figure['x'] -= 1
@@ -182,17 +198,17 @@ def run_tetris():
             falling_figure['y'] += 1
             last_move_down = time.time()
 
-        if time.time() - last_fall > fall_speed:  # свободное падение фигуры
-            if not check_position(cup, falling_figure, adj_y=1):  # проверка "приземления" фигуры
-                add_to_cup(cup, falling_figure)  # фигура приземлилась, добавляем ее в содержимое стакана
+        if time.time() - last_fall > fall_speed:  # Free fall of the figure
+            if not check_position(cup, falling_figure, adj_y=1):  # Check for landing
+                add_to_cup(cup, falling_figure)  # Add figure to the cup
                 points += clear_completed(cup)
                 level, fall_speed = calc_speed(points)
                 falling_figure = None
-            else:  # фигура пока не приземлилась, продолжаем движение вниз
+            else:  # Continue moving down
                 falling_figure['y'] += 1
                 last_fall = time.time()
 
-        # рисуем окно игры со всеми надписями
+        # Draw the game window with all elements
         display_surface.fill(BG_COLOR)
         draw_title()
         game_cup(cup)
@@ -205,16 +221,32 @@ def run_tetris():
 
 
 def txt_objects(text, font, color):
+    """Render text to a surface and return the surface and its rectangle.
+
+    Args:
+        text (str): The text to be rendered.
+        font (Font): The font object used to render the text.
+        color (tuple): The color of the text in RGB format.
+
+    Returns:
+        tuple: A tuple containing the rendered surface and its rectangle.
+    """
     surf = font.render(text, True, color)
     return surf, surf.get_rect()
 
 
 def stop_game():
+    """Quit the game and exit the program."""
     pg.quit()
     sys.exit()
 
 
 def check_keys():
+    """Check for key events and return the key pressed.
+
+    Returns:
+        int or None: The key pressed or None if no key was pressed.
+    """
     quit_game()
 
     for event in pg.event.get([KEYDOWN, KEYUP]):
@@ -226,6 +258,11 @@ def check_keys():
 
 
 def show_text(text):
+    """Display text on the screen and wait for a key press.
+
+    Args:
+        text (str): The text to display.
+    """
     title_surf, title_rect = txt_objects(text, big_font, TITLE_COLOR)
     title_rect.center = (int(WINDOW_WIDTH / 2) - 3,
                          int(WINDOW_HEIGHT / 2) - 3)
@@ -245,7 +282,8 @@ def show_text(text):
 
 
 def quit_game():
-    for event in pg.event.get(QUIT):  # проверка всех событий, приводящих к выходу из игры
+    """Check for quit events and exit the game if needed."""
+    for event in pg.event.get(QUIT):
         stop_game()
 
     for event in pg.event.get(KEYUP):
@@ -255,14 +293,25 @@ def quit_game():
 
 
 def calc_speed(points):
-    # вычисляет уровень
+    """Calculate the level and fall speed based on points.
+
+        Args:
+            points (int): The current score or points.
+
+        Returns:
+            tuple: A tuple containing the level and the fall speed.
+    """
     level = int(points / 10) + 1
     fall_speed = 0.27 - (level * 0.02)
     return level, fall_speed
 
 
 def get_new_figure():
-    # возвращает новую фигуру со случайным цветом и углом поворота
+    """Return a new figure with a random shape and rotation.
+
+    Returns:
+        dict: A dictionary representing the new figure with its shape, rotation, position, and color.
+    """
     shape = random.choice(list(FIGURES.keys()))
     new_figure = {
         'shape': shape,
@@ -275,6 +324,12 @@ def get_new_figure():
 
 
 def add_to_cup(cup, fig):
+    """Add a figure to the cup.
+
+    Args:
+        cup (list): The current state of the cup as a 2D list.
+        fig (dict): A dictionary representing the figure with its shape, rotation, position, and color.
+    """
     for x in range(FIG_WIDTH):
         for y in range(FIG_HEIGHT):
             if FIGURES[fig['shape']][fig['rotation']][y][x] != EMPTY:
@@ -282,7 +337,11 @@ def add_to_cup(cup, fig):
 
 
 def empty_cup():
-    # создает пустой стакан
+    """Create an empty cup.
+
+    Returns:
+        list: A 2D list representing an empty cup.
+    """
     cup = []
     for i in range(CUP_WIDTH):
         cup.append([EMPTY] * CUP_HEIGHT)
@@ -290,11 +349,30 @@ def empty_cup():
 
 
 def in_cup(x, y):
+    """Check if the coordinates are within the cup boundaries.
+
+    Args:
+        x (int): The x-coordinate to check.
+        y (int): The y-coordinate to check.
+
+    Returns:
+        bool: True if the coordinates are within the cup, False otherwise.
+    """
     return 0 <= x < CUP_WIDTH and y < CUP_HEIGHT
 
 
 def check_position(cup, fig, adj_x=0, adj_y=0):
-    # проверяет, находится ли фигура в границах стакана, не сталкиваясь с другими фигурами
+    """Check if a figure can be placed in the cup without collisions.
+
+    Args:
+        cup (list): The current state of the cup as a 2D list.
+        fig (dict): A dictionary representing the figure with its shape, rotation, and position.
+        adj_x (int, optional): The adjustment in the x-direction. Defaults to 0.
+        adj_y (int, optional): The adjustment in the y-direction. Defaults to 0.
+
+    Returns:
+        bool: True if the figure can be placed without collisions, False otherwise.
+    """
     for x in range(FIG_WIDTH):
         for y in range(FIG_HEIGHT):
             above_cup = y + fig['y'] + adj_y < 0
@@ -308,7 +386,15 @@ def check_position(cup, fig, adj_x=0, adj_y=0):
 
 
 def is_completed(cup, y):
-    # проверяем наличие полностью заполненных рядов
+    """Check if a row is completely filled.
+
+    Args:
+        cup (list): The current state of the cup as a 2D list.
+        y (int): The row index to check.
+
+    Returns:
+        bool: True if the row is completely filled, False otherwise.
+    """
     for x in range(CUP_WIDTH):
         if cup[x][y] == EMPTY:
             return False
@@ -316,7 +402,14 @@ def is_completed(cup, y):
 
 
 def clear_completed(cup):
-    # Удаление заполненных рядов и сдвиг верхних рядов вниз
+    """Remove filled rows and shift upper rows down.
+
+    Args:
+        cup (list): The current state of the cup as a 2D list.
+
+    Returns:
+        int: The number of removed lines.
+    """
     removed_lines = 0
     y = CUP_HEIGHT - 1
 
@@ -335,11 +428,28 @@ def clear_completed(cup):
 
 
 def convert_coords(block_x, block_y):
+    """Convert block coordinates to pixel coordinates.
+
+    Args:
+        block_x (int): The x-coordinate of the block.
+        block_y (int): The y-coordinate of the block.
+
+    Returns:
+        tuple: A tuple containing the pixel coordinates (pixel_x, pixel_y).
+    """
     return (SIDE_MARGIN + (block_x * BLOCK_SIZE)), (TOP_MARGIN + (block_y * BLOCK_SIZE))
 
 
 def draw_block(block_x, block_y, color, pixel_x=None, pixel_y=None):
-    # отрисовка квадратных блоков, из которых состоят фигуры
+    """Draw square blocks that make up the figures.
+
+    Args:
+        block_x (int): The x-coordinate of the block.
+        block_y (int): The y-coordinate of the block.
+        color (int): The color index for the block.
+        pixel_x (int, optional): The x-coordinate in pixels. Defaults to None.
+        pixel_y (int, optional): The y-coordinate in pixels. Defaults to None.
+    """
     if color == EMPTY:
         return
 
@@ -357,7 +467,11 @@ def draw_block(block_x, block_y, color, pixel_x=None, pixel_y=None):
 
 
 def game_cup(cup):
-    # граница игрового поля-стакана
+    """Draw the game cup boundary and background.
+
+    Args:
+        cup (list): A 2D list representing the game cup's blocks.
+    """
     pg.draw.rect(display_surface, BRD_COLOR,
                  (SIDE_MARGIN - 4, TOP_MARGIN - 4,
                   (CUP_WIDTH * BLOCK_SIZE) + 8,
@@ -375,6 +489,7 @@ def game_cup(cup):
 
 
 def draw_title():
+    """Draw the game title on the screen."""
     title_surf = big_font.render('Тетрис Lite', True, TITLE_COLOR)
     title_rect = title_surf.get_rect()
     title_rect.topleft = (WINDOW_WIDTH - 425, 30)
@@ -382,6 +497,12 @@ def draw_title():
 
 
 def draw_info(points, level):
+    """Draw the game information such as points and level on the screen.
+
+    Args:
+        points (int): The current score of the player.
+        level (int): The current level of the game.
+    """
     points_surf = basic_font.render(f'Баллы: {points}', True, TXT_COLOR)
     points_rect = points_surf.get_rect()
     points_rect.topleft = (WINDOW_WIDTH - 550, 180)
@@ -404,12 +525,19 @@ def draw_info(points, level):
 
 
 def draw_figure(fig, pixel_x=None, pixel_y=None):
+    """Draw the figure on the screen at the specified pixel coordinates.
+
+       Args:
+           fig (dict): The figure to draw, containing its shape, rotation, and color.
+           pixel_x (int, optional): The x-coordinate in pixels. Defaults to None.
+           pixel_y (int, optional): The y-coordinate in pixels. Defaults to None.
+    """
     fig_to_draw = FIGURES[fig['shape']][fig['rotation']]
 
     if pixel_x is None and pixel_y is None:
         pixel_x, pixel_y = convert_coords(fig['x'], fig['y'])
 
-    # отрисовка элементов фигур
+    # Draw the elements of the figure
     for x in range(FIG_WIDTH):
         for y in range(FIG_HEIGHT):
             if fig_to_draw[y][x] != EMPTY:
@@ -418,7 +546,12 @@ def draw_figure(fig, pixel_x=None, pixel_y=None):
                            pixel_y + (y * BLOCK_SIZE))
 
 
-def draw_next_figure(fig):  # превью следующей фигуры
+def draw_next_figure(fig):
+    """Draw the preview of the next figure to be played.
+
+        Args:
+            fig (dict): The next figure to be drawn.
+    """
     next_surf = basic_font.render('Следующая:', True, TXT_COLOR)
     next_rect = next_surf.get_rect()
     next_rect.topleft = (WINDOW_WIDTH - 150, 180)
