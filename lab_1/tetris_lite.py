@@ -14,8 +14,12 @@ SIDE_FREQ, DOWN_FREQ = 0.15, 0.1 # передвижение в сторону и
 SIDE_MARGIN = int((WINDOW_WIDTH - CUP_WIDTH * BLOCK_SIZE) / 2)
 TOP_MARGIN = WINDOW_HEIGHT - (CUP_HEIGHT * BLOCK_SIZE) - 5
 
-COLORS = ((0, 0, 225), (0, 225, 0), (225, 0, 0), (225, 225, 0)) # синий, зеленый, красный, желтый
-LIGHT_COLORS = ((30, 30, 255), (50, 255, 50), (255, 30, 30), (255, 255, 30)) # светло-синий, светло-зеленый, светло-красный, светло-желтый
+COLORS = (
+    (0, 0, 225), (0, 225, 0), (225, 0, 0), (225, 225, 0)
+) # синий, зеленый, красный, желтый
+LIGHT_COLORS = (
+    (30, 30, 255), (50, 255, 50), (255, 30, 30), (255, 255, 30)
+) # светло-синий, светло-зеленый, светло-красный, светло-желтый
 
 WHITE, GRAY, BLACK  = (255, 255, 255), (185, 185, 185), (0, 0, 0)
 BRD_COLOR, BG_COLOR, TXT_COLOR, TITLE_COLOR, INFO_COLOR = WHITE, GRAY, BLACK, COLORS[3], COLORS[0]
@@ -23,107 +27,47 @@ BRD_COLOR, BG_COLOR, TXT_COLOR, TITLE_COLOR, INFO_COLOR = WHITE, GRAY, BLACK, CO
 FIG_WIDTH, FIG_HEIGHT = 5, 5
 EMPTY = 'o'
 
-FIGURES = {'S': [['ooooo',
-                  'ooooo',
-                  'ooxxo',
-                  'oxxoo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooxoo',
-                  'ooxxo',
-                  'oooxo',
-                  'ooooo']],
-           'Z': [['ooooo',
-                  'ooooo',
-                  'oxxoo',
-                  'ooxxo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooxoo',
-                  'oxxoo',
-                  'oxooo',
-                  'ooooo']],
-           'J': [['ooooo',
-                  'oxooo',
-                  'oxxxo',
-                  'ooooo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooxxo',
-                  'ooxoo',
-                  'ooxoo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooooo',
-                  'oxxxo',
-                  'oooxo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooxoo',
-                  'ooxoo',
-                  'oxxoo',
-                  'ooooo']],
-           'L': [['ooooo',
-                  'oooxo',
-                  'oxxxo',
-                  'ooooo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooxoo',
-                  'ooxoo',
-                  'ooxxo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooooo',
-                  'oxxxo',
-                  'oxooo',
-                  'ooooo'],
-                 ['ooooo',
-                  'oxxoo',
-                  'ooxoo',
-                  'ooxoo',
-                  'ooooo']],
-           'I': [['ooxoo',
-                  'ooxoo',
-                  'ooxoo',
-                  'ooxoo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooooo',
-                  'xxxxo',
-                  'ooooo',
-                  'ooooo']],
-           'O': [['ooooo',
-                  'ooooo',
-                  'oxxoo',
-                  'oxxoo',
-                  'ooooo']],
-           'T': [['ooooo',
-                  'ooxoo',
-                  'oxxxo',
-                  'ooooo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooxoo',
-                  'ooxxo',
-                  'ooxoo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooooo',
-                  'oxxxo',
-                  'ooxoo',
-                  'ooooo'],
-                 ['ooooo',
-                  'ooxoo',
-                  'oxxoo',
-                  'ooxoo',
-                  'ooooo']]}
+FIGURES = {
+    'S': [
+        ['ooooo', 'ooooo', 'ooxxo', 'oxxoo', 'ooooo'],
+        ['ooooo', 'ooxoo', 'ooxxo', 'oooxo', 'ooooo']
+    ],
+    'Z': [
+        ['ooooo', 'ooooo', 'oxxoo', 'ooxxo', 'ooooo'],
+        ['ooooo', 'ooxoo', 'oxxoo', 'oxooo', 'ooooo']
+    ],
+    'J': [
+        ['ooooo', 'oxooo', 'oxxxo', 'ooooo', 'ooooo'],
+        ['ooooo', 'ooxxo', 'ooxoo', 'ooxoo', 'ooooo'],
+        ['ooooo', 'ooooo', 'oxxxo', 'oooxo', 'ooooo'],
+        ['ooooo', 'ooxoo', 'ooxoo', 'oxxoo', 'ooooo']
+    ],
+    'L': [
+        ['ooooo', 'oooxo', 'oxxxo', 'ooooo', 'ooooo'],
+        ['ooooo', 'ooxoo', 'ooxoo', 'ooxxo', 'ooooo'],
+        ['ooooo', 'ooooo', 'oxxxo', 'oxooo', 'ooooo'],
+        ['ooooo', 'oxxoo', 'ooxoo', 'ooxoo', 'ooooo']
+    ],
+    'I': [
+        ['ooxoo', 'ooxoo', 'ooxoo', 'ooxoo', 'ooooo'],
+        ['ooooo', 'ooooo', 'xxxxo', 'ooooo', 'ooooo']
+    ],
+    'O': [
+        ['ooooo', 'ooooo', 'oxxoo', 'oxxoo', 'ooooo']
+    ],
+    'T': [
+        ['ooooo', 'ooxoo', 'oxxxo', 'ooooo', 'ooooo'],
+        ['ooooo', 'ooxoo', 'ooxxo', 'ooxoo', 'ooooo'],
+        ['ooooo', 'ooooo', 'oxxxo', 'ooxoo', 'ooooo'],
+        ['ooooo', 'ooxoo', 'ooxoo', 'oxxoo', 'ooooo']
+    ]
+}
 
 
 def pause_screen():
-        pause_surface = pg.Surface((600, 500), pg.SRCALPHA)
-        pause_surface.fill((0, 0, 255, 127))
-        display_surface.blit(pause_surface, (0, 0))
+    pause_surface = pg.Surface((600, 500), pg.SRCALPHA)
+    pause_surface.fill((0, 0, 255, 127))
+    display_surface.blit(pause_surface, (0, 0))
 
 
 def main():
@@ -198,9 +142,13 @@ def run_tetris():
 
                 # поворачиваем фигуру, если есть место
                 elif event.key == K_UP:
-                    falling_figure['rotation'] = (falling_figure['rotation'] + 1) % len(FIGURES[falling_figure['shape']])
+                    falling_figure['rotation'] = (
+                                                         falling_figure['rotation'] + 1
+                                                 ) % len(FIGURES[falling_figure['shape']])
                     if not check_position(cup, falling_figure):
-                        falling_figure['rotation'] = (falling_figure['rotation'] - 1) % len(FIGURES[falling_figure['shape']])
+                        falling_figure['rotation'] = (
+                                                             falling_figure['rotation'] - 1
+                                                     ) % len(FIGURES[falling_figure['shape']])
 
                 # ускоряем падение фигуры
                 elif event.key == K_DOWN:
@@ -227,7 +175,9 @@ def run_tetris():
                 falling_figure['x'] += 1
             last_side_move = time.time()
 
-        if going_down and time.time() - last_move_down > DOWN_FREQ and check_position(cup, falling_figure, adj_y=1):
+        if (going_down and
+                time.time() - last_move_down > DOWN_FREQ
+                and check_position(cup, falling_figure, adj_y=1)):
             falling_figure['y'] += 1
             last_move_down = time.time()
 
@@ -276,11 +226,16 @@ def check_keys():
 
 def show_text(text):
     title_surf, title_rect = txt_objects(text, big_font, TITLE_COLOR)
-    title_rect.center = (int(WINDOW_WIDTH / 2) - 3, int(WINDOW_HEIGHT / 2) - 3)
+    title_rect.center = (int(WINDOW_WIDTH / 2) - 3,
+                         int(WINDOW_HEIGHT / 2) - 3)
     display_surface.blit(title_surf, title_rect)
 
-    press_key_surf, press_key_rect = txt_objects('Нажмите любую клавишу для продолжения', basic_font, TITLE_COLOR)
-    press_key_rect.center = (int(WINDOW_WIDTH / 2), int(WINDOW_HEIGHT / 2) + 100)
+    press_key_surf, press_key_rect = txt_objects(
+        'Нажмите любую клавишу для продолжения',
+        basic_font, TITLE_COLOR
+    )
+    press_key_rect.center = (int(WINDOW_WIDTH / 2),
+                             int(WINDOW_HEIGHT / 2) + 100)
     display_surface.blit(press_key_surf, press_key_rect)
 
     while check_keys() == None:
@@ -308,11 +263,13 @@ def calc_speed(points):
 def get_new_figure():
     # возвращает новую фигуру со случайным цветом и углом поворота
     shape = random.choice(list(FIGURES.keys()))
-    new_figure = {'shape': shape,
-                'rotation': random.randint(0, len(FIGURES[shape]) - 1),
-                'x': int(CUP_WIDTH / 2) - int(FIG_WIDTH / 2),
-                'y': -2,
-                'color': random.randint(0, len(COLORS)-1)}
+    new_figure = {
+        'shape': shape,
+        'rotation': random.randint(0, len(FIGURES[shape]) - 1),
+        'x': int(CUP_WIDTH / 2) - int(FIG_WIDTH / 2),
+        'y': -2,
+        'color': random.randint(0, len(COLORS)-1)
+    }
     return new_figure
 
 
@@ -388,17 +345,28 @@ def draw_block(block_x, block_y, color, pixel_x=None, pixel_y=None):
     if pixel_x == None and pixel_y == None:
         pixel_x, pixel_y = convert_coords(block_x, block_y)
 
-    pg.draw.rect(display_surface, COLORS[color], (pixel_x + 1, pixel_y + 1, BLOCK_SIZE - 1, BLOCK_SIZE - 1), 0, 3)
-    pg.draw.rect(display_surface, LIGHT_COLORS[color], (pixel_x + 1, pixel_y + 1, BLOCK_SIZE - 4, BLOCK_SIZE - 4), 0, 3)
-    pg.draw.circle(display_surface, COLORS[color], (pixel_x + BLOCK_SIZE / 2, pixel_y + BLOCK_SIZE / 2), 5)
+    pg.draw.rect(display_surface, COLORS[color],
+                 (pixel_x + 1, pixel_y + 1, BLOCK_SIZE - 1,
+                  BLOCK_SIZE - 1), 0, 3)
+    pg.draw.rect(display_surface, LIGHT_COLORS[color],
+                 (pixel_x + 1, pixel_y + 1, BLOCK_SIZE - 4,
+                  BLOCK_SIZE - 4), 0, 3)
+    pg.draw.circle(display_surface, COLORS[color],
+                   (pixel_x + BLOCK_SIZE / 2, pixel_y + BLOCK_SIZE / 2), 5)
 
 
 def game_cup(cup):
     # граница игрового поля-стакана
-    pg.draw.rect(display_surface, BRD_COLOR, (SIDE_MARGIN - 4, TOP_MARGIN - 4, (CUP_WIDTH * BLOCK_SIZE) + 8, (CUP_HEIGHT * BLOCK_SIZE) + 8), 5)
+    pg.draw.rect(display_surface, BRD_COLOR,
+                 (SIDE_MARGIN - 4, TOP_MARGIN - 4,
+                  (CUP_WIDTH * BLOCK_SIZE) + 8,
+                  (CUP_HEIGHT * BLOCK_SIZE) + 8), 5)
 
     # фон игрового поля
-    pg.draw.rect(display_surface, BG_COLOR, (SIDE_MARGIN, TOP_MARGIN, BLOCK_SIZE * CUP_WIDTH, BLOCK_SIZE * CUP_HEIGHT))
+    pg.draw.rect(display_surface, BG_COLOR,
+                 (SIDE_MARGIN, TOP_MARGIN,
+                  BLOCK_SIZE * CUP_WIDTH,
+                  BLOCK_SIZE * CUP_HEIGHT))
 
     for x in range(CUP_WIDTH):
         for y in range(CUP_HEIGHT):
@@ -444,7 +412,9 @@ def draw_figure(fig, pixel_x=None, pixel_y=None):
     for x in range(FIG_WIDTH):
         for y in range(FIG_HEIGHT):
             if fig_to_draw[y][x] != EMPTY:
-                draw_block(None, None, fig['color'], pixel_x + (x * BLOCK_SIZE), pixel_y + (y * BLOCK_SIZE))
+                draw_block(None, None, fig['color'],
+                           pixel_x + (x * BLOCK_SIZE),
+                           pixel_y + (y * BLOCK_SIZE))
 
 
 def draw_next_figure(fig):  # превью следующей фигуры
