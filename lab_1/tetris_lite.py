@@ -219,6 +219,7 @@ def run_tetris():
             draw_figure(falling_figure)
         pg.display.update()
         fps_clock.tick(FPS)
+        print(f"Points: {points}, Level: {level}, Fall Speed: {fall_speed}")
 
 
 def txt_objects(text, font, color):
@@ -438,7 +439,8 @@ def convert_coords(block_x, block_y):
     Returns:
         tuple: A tuple containing the pixel coordinates (pixel_x, pixel_y).
     """
-    return (SIDE_MARGIN + (block_x * BLOCK_SIZE)), (TOP_MARGIN + (block_y * BLOCK_SIZE))
+    return ((SIDE_MARGIN + (block_x * BLOCK_SIZE)),
+            (TOP_MARGIN + (block_y * BLOCK_SIZE)))
 
 
 def draw_block(block_x, block_y, color, pixel_x=None, pixel_y=None):
