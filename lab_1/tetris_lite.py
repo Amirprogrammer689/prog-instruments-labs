@@ -179,6 +179,7 @@ def run_tetris():
                     going_down = False
                     going_left = False
                     going_right = False
+                    i = 0
                     for i in range(1, CUP_HEIGHT):
                         if not check_position(cup, falling_figure, adj_y=i):
                             break
@@ -249,10 +250,10 @@ def check_keys():
     """
     quit_game()
 
-    for event in pg.event.get([KEYDOWN, KEYUP]):
+    events = pg.event.get([KEYDOWN, KEYUP])
+    for event in events:
         if event.type == KEYDOWN:
-            continue
-        return event.key
+            return event.key  # Возвращаем нажатую клавишу
 
     return None
 
@@ -417,10 +418,10 @@ def clear_completed(cup):
         if is_completed(cup, y):
             for push_down_y in range(y, 0, -1):
                 for x in range(CUP_WIDTH):
-                    cup[x][push_down_y] = cup[x][push_down_y-1]
+                    cup[x][push_down_y] = cup[x][push_down_y - 1]
             for x in range(CUP_WIDTH):
                 cup[x][0] = EMPTY
-                removed_lines += 1
+            removed_lines += 1
         else:
             y -= 1
 
@@ -557,7 +558,7 @@ def draw_next_figure(fig):
     next_rect.topleft = (WINDOW_WIDTH - 150, 180)
     display_surface.blit(next_surf, next_rect)
 
-    draw_figure(fig, pixel_x=WINDOW_WIDTH-150, pixel_y=230)
+    draw_figure(fig, pixel_x=WINDOW_WIDTH - 150, pixel_y=230)
 
 
 if __name__ == '__main__':
