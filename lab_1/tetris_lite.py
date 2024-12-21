@@ -321,12 +321,12 @@ def clear_completed(cup):
 
     while y >= 0:
         if is_completed(cup, y):
-           for push_down_y in range(y, 0, -1):
+            for push_down_y in range(y, 0, -1):
                 for x in range(CUP_WIDTH):
                     cup[x][push_down_y] = cup[x][push_down_y-1]
-           for x in range(CUP_WIDTH):
-                cup[x][0] = EMPTY
-           removed_lines += 1
+                for x in range(CUP_WIDTH):
+                    cup[x][0] = EMPTY
+                    removed_lines += 1
         else:
             y -= 1
 
